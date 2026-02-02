@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Can I Be Your Valentine?</title>
+    
+      <style>
+        body {
+    
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          margin: 0;
+          background-color: #c98e8e; 
+          font-family: 'Arial', sans-serif;
+          text-align: center;
+          overflow: hidden;
+        }
+    
+        h1 {
+          color: #d11d53; /* Valentine red */
+          font-size: 3em;
+        }
+    
+        .container {
+          position: relative;
+          width: 100%;
+          max-width: 600px;
+          padding: 20px;
+          background-color: #ffd1d1; /* Lavender blush */
+          border-radius: 15px;
+          
+        }
+    
+        img {
+          width: 300px;
+          border-radius: 20px;
+          margin-bottom: 20px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    
+        .buttons {
+          display: flex;
+          justify-content: center;
+          gap: 40px;
+          align-items: center;
+          height: 100px;
+        }
+    
+        button {
+          padding: 15px 30px;
+          font-size: 1.5em;
+          cursor: pointer;
+          border: none;
+          border-radius: 10px;
+          transition: transform 0.2s;
+          margin: 0 20px;
+    
+        }
+    
+        #yesBtn {
+          background-color: #4caf50; /* Green */
+          color: white;
+        }
+    
+        #noWrapper {
+          position: relative;
+        }
+    
+        #noBtn {
+          background-color: #f44336; /* Red */
+          color: white;
+          position: relative; 
+        }
+    
+      #confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 999;
+      }
+      </style>
+    </head>
+    <body>
+    
+      <div class="container">
+        <h1 id="question">Can I Be Your Valentine?❤️🤎</h1>
+        <img id="catImg" src="cat-heart.jpg" alt="cat">
+    
+        <div class="buttons">
+          <button id="yesBtn" onclick="
+            celebrate();
+            ">Yes
+          </button>
+    
+          <div id="noWrapper">
+            <button id="noBtn" onmouseover="
+              moveButton();
+              ">No
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <canvas id="confetti"></canvas>
+    
+      <script>
+        const canvas = document.getElementById("confetti");
+        const ctx = canvas.getContext("2d");
+    
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    
+        let confettiPieces = [];
+    
+        function startConfetti() {
+          confettiPieces = [];
+    
+          const colors = ['#000000', '#ff477e', '#ff85a1', '#fbb1b1', '#73391e'];
+    
+          for (let i = 0; i < 150; i++) {
+            confettiPieces.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height - canvas.height,
+              size: Math.random() * 8 + 4,
+              speed: Math.random() * 3 + 2,
+              drift: Math.random() * 2 - 1,
+              color: colors[Math.floor(Math.random() * colors.length)]
+            });
+          }
+    
+          animateConfetti();
+        }
+    
+        function animateConfetti() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+          confettiPieces.forEach(p => {
+            p.y += p.speed;
+            p.x += p.drift;
+    
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+          });
+    
+          if (confettiPieces.some(p => p.y < canvas.height)) {
+            requestAnimationFrame(animateConfetti);
+          }
+        }
+    
+        // Making the "No" button evade clicks
+        function moveButton() {
+          const noBtn = document.getElementById('noBtn');
+    
+          noBtn.style.position = "fixed";
+    
+          const btnWidth = noBtn.offsetWidth;
+          const btnHeight = noBtn.offsetHeight;
+    
+          const padding = 20; // To prevent button from touching edges
+    
+          const maxX = window.innerWidth - btnWidth;
+          const maxY = window.innerHeight - btnHeight;
+    
+          const x = Math.random() * maxX;
+          const y = Math.random() * maxY;
+    
+          noBtn.style.left = x + 'px';
+          noBtn.style.top = y + 'px';
+    
+          //Change the text of the button as it moves
+          const phrases = ["Are you sure?", "Think again!", "Pleease?"];
+          noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        }
+    
+        function celebrate() {
+          document.getElementById('question').innerText = "Yay! See you soon! 😊🤎";
+          document.getElementById('catImg').src = "heart-cat-cool.jpg"; // Happy cat image URL
+          document.getElementById('noBtn').style.display = 'none';
+    
+          startConfetti();
+    
+          // alert("I'm so happy! Can't wait to see you! 💙🤎");
+    
+        }
+      </script>
+      
+    </body>
+    </html>
