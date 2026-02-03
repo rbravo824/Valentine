@@ -83,6 +83,18 @@
         pointer-events: none;
         z-index: 999;
       }
+
+        /* Targeted for Laptops and Desktop screens */
+       @media screen and (min-width: 1024px) {
+          h1 {
+            font-size: 5em; /* Larger title for big screens */
+          }
+        
+          .container {
+            max-width: 800px; /* Allow more space on larger displays */
+            padding: 40px;
+          }
+        }
       </style>
     </head>
     <body>
